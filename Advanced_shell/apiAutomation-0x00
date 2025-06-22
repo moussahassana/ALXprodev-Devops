@@ -19,7 +19,8 @@ def get_pokemon_data(pokemon_name):
             file.write(response.text)
         return response.json()
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching data for {pokemon_name}: {e}")
+        with open('error.txt','w'):
+            file.write(str(e))
         return None
     
 def main():
