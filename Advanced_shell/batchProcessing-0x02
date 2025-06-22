@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Directory to save Pokémon data
+mkdir -p pokemon_data
+
+# List of Pokémon to fetch
+pokemon_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
+
+# Base API URL
+base_url="https://pokeapi.co/api/v2/pokemon"
+
+# Loop through each Pokémon
+for name in "${pokemon_list[@]}"; do
+    echo "Fetching data for $name..."
+    
+    # Fetch data and save to JSON file
+    curl -s "${base_url}/${name}" -o "pokemon_data/${name}.json"
+
+    if [ $? -eq 0 ]; then
+        echo "Saved data to pokemon_data/${name}.json "
+    else
+        echo "Failed to fetch data for $name "
+    fi
+
+    # Sleep to avoid rate-limiting
+    sleep 1
+done
