@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# Parse name, height, weight, and type using jq, awk, sed
+# Extract and format data from data.json
 name=$(jq -r '.name' data.json | sed 's/.*/\u&/')
-height=$(jq -r '.height' data.json | awk '{ printf "%.1f", $1 / 10 }')
-weight=$(jq -r '.weight' data.json | awk '{ printf "%.0f", $1 / 10 }')
 type=$(jq -r '.types[0].type.name' data.json | sed 's/.*/\u&/')
 
-# Output the formatted result
-echo "$name is of type $type, weighs ${weight}kg, and is ${height}m tall."
+# Height and weight conversions
+formatted_height=$(jq -r '.height' data.json | awk '{ printf "%.1f", $1 / 10 }')
+formatted_weight=$(jq -r '.weight' data.json | awk '{ printf "%.0f", $1 / 10 }')
+
+# Required output format
+echo "$name is of type $type, weighs ${formatted_weight}kg, and is ${formatted_height}m tall."
